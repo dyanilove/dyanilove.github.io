@@ -1,0 +1,783 @@
+/* root{} 안에 --background-color나 --font-size, --base-space 등 설정해두고, (root는 최상위 부모노드)
+자식노드에서 접근 시 var(--background-color)로 접근
++) calc(var(--base-space) *2); */
+/* @media screen and (max-width: 768px) {
+    :root{
+        ~
+    }
+} - 모바일에서는 색상이 다르게 보이게 함*/
+/* CSS기능 더 공부할 때 -> https://developer.mozilla.org/en-US/docs/Web/CSS 참고 */
+
+/* Global */
+:root {
+  /* Color */
+  --color-white: #ffffff;
+  --color-light-white: #eeeeee;
+  --color-dark-white: #bdbdbd;
+  --color-pink: #E5C1C5;
+  --color-gray: #616161;
+  --color-light-gray: #7c7979;
+  --color-dark-gray: #4d4d4d;
+  --color-dark-blue: #333D79;
+  --color-blue: #73aace;
+  --color-yellow: #f2EEE5;
+  --color-orange: #FEB78D;
+  --color-black: #000000;
+  --color-home-banner: linear-gradient(167deg, rgba(227, 171, 182, 1) 0%, rgba(237, 229, 240, 1) 32%);
+  --color-dark-navbar: #eedfe2;
+
+  /* Font size */
+  --font-large: 48px;
+  --font-medium: 28px;
+  --font-regular: 18px;
+  --font-small: 16px;
+  --font-micro: 14px;
+
+  /* Font weight */
+  --weight-bold: 700;
+  --weight-semi-bold: 600;
+  --weight-regular: 400;
+
+  /* Size */
+  --size-border-radius: 4px;
+
+  /* Animation */
+  --animation-duration: 300ms;
+  /* 애니메이션 효과를 줄때 1s는 너무 길기 때문에 보통 300ms 준다. 이 속도가 제일 예쁘게 변화하기 때문! */
+}
+
+/* Universal tags */
+* {
+  /* * = 전체를 선택한다는 의미 */
+  box-sizing: border-box;
+  /* Parent container에 Child container가 딱 맞게 들어감 */
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Open Sans", sans-serif;
+  margin: 0;
+  cursor: default;
+}
+
+a {
+  text-decoration: none;
+  color: var(--color-dark-white);
+}
+
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+button {
+  background-color: transparent;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+/* Typography */
+h1 {
+  font-size: var(--font-large);
+  font-weight: var(--weight-bold);
+  color: var(--color-black);
+  margin: 16px 0px;
+  /* 위아래폭 왼쪽오른쪽폭 */
+}
+
+h2 {
+  font-size: var(--font-medium);
+  font-weight: var(--weight-semi-bold);
+  color: var(--color-black);
+  margin: 8px 0;
+}
+
+h3 {
+  font-size: var(--font-regular);
+  font-weight: var(--font-regular);
+  color: var(--color-black);
+  margin: 8px 0;
+}
+
+/* Navbar */
+#navbar {
+  position: fixed;
+  display: flex;
+  justify-content: space-between;
+  /*박스들이 양옆에 쏠리면서 가운데에 빈공간이 생김*/
+  background-color: transparent;
+  align-items: center;
+  /*수직에서 중간정렬*/
+  color: var(--color-dark-blue);
+  padding: 16px;
+  width: 100%;
+  transition: all var(--animation-duration) ease-in-out;
+  /* navbar--dark로 변환 시 천천히 변환 */
+  z-index: 1;
+}
+
+#navbar.navbar--dark {
+  background-color: var(--color-dark-navbar);
+  padding: 8px;
+}
+
+.navbar__menu {
+  display: flex;
+  gap: 4px;
+}
+
+.navbar__logo {
+  font-size: var(--font-medium);
+  font-weight: var(--weight-semi-bold);
+  color: #EBD990;
+}
+
+.navbar__logo--text {
+  font-size: var(--font-medium);
+  font-weight: var(--weight-semi-bold);
+  color: var(--color-dark-blue);
+}
+
+.navbar__menu__item {
+  display: block;
+  padding: 8px 16px;
+}
+
+.navbar__menu__item.active {
+  border: 1px solid var(--color-dark-blue);
+  border-radius: 4px;
+}
+
+.navbar__menu__item:hover {
+  border-bottom: 1px solid var(color-white);
+  background-color: var(--color-dark-navbar);
+}
+
+.navbar__toggle-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.5rem;
+  color: var(--color-white);
+  display: none;
+}
+
+/* Home */
+#home {
+  background: var(--color-home-banner);
+  /* url("imgs/home-background.png") center/cover no-repeat; */
+  padding: 40px;
+  padding-top: 120px;
+  text-align: center;
+  display: flex;
+  justify-content: center; /* 수평 정렬 */
+  align-items: center; /* 수직 정렬 */
+  height: 100vh
+}
+
+.profileimg {
+  width: 350px;
+  /* height: 290px; */
+  /* border-radius: 50%; */
+  /* border-radius가 50%면 사각형 -> 원 형태로 변함 */
+  /* border: 2px solid var(--color-light-white); */
+}
+
+.aboutme {
+  display: flex;
+  padding-top: 30px;
+}
+
+.meimg {
+  flex: 1; /* 좌측 영역이 전체 너비의 반을 차지하도록 설정 */
+}
+
+.meinfo {
+  flex: 1; /* 우측 영역이 전체 너비의 반을 차지하도록 설정 */
+  padding: 0 20px; /* 좌우 여백을 추가하여 레이아웃을 더 편안하게 만듭니다. */
+}
+.about-info{
+  display: inline-block;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+
+.home__title,
+.home__title--name,
+.home__description {
+  color: var(--color-dark-blue);
+}
+
+.home__contact {
+  color: var(--color-dark-blue);
+  font-size: var(--font-regular);
+  font-weight: var(--weight-bold);
+  margin: 24px;
+  padding: 8px 12px;
+  border: 2px solid var(--color-dark-blue);
+  border-radius: var(--size-border-radius);
+}
+
+/* Section common */
+/* .  -> 클래스
+      -> 태그 
+  #   -> 아이디  */
+
+/* Section common */
+.section {
+  padding: 80px 50px;
+  
+  margin: auto;
+  /* margin이 한쪽에만 몰려있을 때 auto를 쓰면 자동으로 양옆으로 정렬된다. */
+}
+
+.section__container {
+  max-width: 1200px;
+  /* 이거 설정 안하면 늘어나면서 배열되는 아이콘 사이 간격이 너무 멀어짐 웹사이트 예쁘게 보이려면 필수 */
+  margin: auto;
+}
+
+
+/* About */
+.about__majors {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 80px 0;
+  text-align: center;
+}
+.about-info{
+  display: inline-block;
+  margin-top: 30px;
+}
+
+ul.about-info li{
+  margin-bottom: 30px;
+  display: flex !important;
+  font-size: 18px;
+}
+ul.about-info li span:first-child{
+  font-weight: bold;
+  width: 130px
+}
+
+
+.major__icon {
+  width: 170px;
+  height: 170px;
+  line-height: 170px;
+  font-size: 70px;
+  /* i태그로 불러온 아이콘을 키우려면 font-size를 키우면 된다. */
+  margin: auto;
+  color: var(--color-blue);
+  /* 아이콘 색 변경 */
+  border: 1px solid var(--color-blue);
+  border-radius: 50%;
+  margin-bottom: 16px;
+}
+
+.major__icon i {
+  transition: all var(--animation-duration) ease;
+  /* 이해돕기
+  transistion: width(transistion-property) 1s(transistion-duration) ease(transistion-timing-function,변화가 일어나는 속도를 설정) .5s(transistion-delay)  
+  http://ielselog.blogspot.com/2013/09/understand-css-trasition.html << css transistion 자세히 설명
+  */
+}
+
+.major__icon:hover i {
+  color: var(--color-pink);
+  transform: rotate(-30deg) scale(1.1);
+}
+
+.major__title,
+.major__description {
+  color: var(--color-dark-gray);
+}
+
+.major__description {
+  font-size: var(--font-small);
+}
+
+.job {
+  display: flex;
+  align-items: center;
+}
+
+.job__image {
+  width: 60px;
+  height: 60px;
+}
+
+.job__description {
+  margin: 0 16px;
+  text-align: left;
+}
+
+.job__name,
+.job__period {
+  color: var(--color-light-gray);
+}
+
+.job__name {
+  font-size: var(--font-small);
+}
+
+.job__period {
+  font-size: var(--font-micro);
+}
+
+/* Skills */
+
+#skills {
+  background-color: var(--color-yellow);
+}
+
+.skillset {
+  /* display: flex; */
+  background-color: var(--color-light-gray);
+  color: var(--color-light-white);
+  margin: 20px 0;
+}
+
+.skillset__title {
+  color: var(--color-white);
+}
+
+.skillset__left {
+  /* flex-basis: 60%; */
+  background-color: var(--color-dark-gray);
+  padding: 20px 40px;
+}
+
+.skill {
+  margin-bottom: 32px;
+}
+
+.skill__description {
+  display: flex;
+  justify-content: space-between;
+}
+
+.skill__bar {
+  width: 100%;
+  height: 3px;
+  background-color: var(--color-gray);
+}
+
+.skill__value {
+  width: 100%;
+  height: 3px;
+  background-color: var(--color-orange);
+}
+
+.skillset__right {
+  flex-basis: 40%;
+}
+
+.tools {
+  background-color: var(--color-gray);
+}
+
+.tools,
+.etc {
+  padding: 20px;
+}
+
+/* Work */
+
+.work__categories {
+  margin: 40px;
+}
+
+.notion__categories {
+  margin: 40px;
+}
+
+.category__btn {
+  border: 1px solid var(--color-dark-white);
+  /* solid - 단선 */
+  border-radius: var(--size-border-radius);
+  font-size: var(--font-regular);
+  padding: 8px 48px;
+}
+
+.category__btn.active,
+.category__btn:hover {
+  background-color: var(--color-pink);
+  color: var(--color-white);
+  /* 글씨색 color 설정 */
+}
+
+.selected {
+  background-color: var(--color-pink);
+  color: var(--color-white);
+}
+
+.selected .category__count,
+.category__btn:hover .category__count {
+  opacity: 1;
+  top: 0;
+}
+
+
+.category__btn.active .category__count,
+.category__btn:hover .category__count {
+  opacity: 1;
+  top: 0;
+}
+
+
+.category__count {
+  background-color: var(--color-orange);
+  border-radius: 50%;
+  color: var(--color-white);
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  display: inline-block;
+  /* inline 엘리먼트처럼 전후 줄바꿈 없이 한 줄에 다른 엘리먼트들과 나란히 배치되지만, block 엘리먼트처럼 width와 height 속성 지정 및 margin과 padding 속성의 상하 간격 지정이 가능 */
+  position: relative;
+  /* https://www.zerocho.com/category/CSS/post/5864f3b59f1dc000182d3ea1 참조.
+     태그의 위치를 변경하고 싶을 때 사용 */
+  top: -20px;
+  left: 4px;
+  opacity: 0;
+  /* opacity -> 투명도 */
+  transition: all var(--animation-duration) ease-in;
+}
+
+.work__projects {
+  /* display: flex; */
+  /* flex-wrap: wrap; */
+  /* 줄바꿈, 매핑 */
+  /* justify-content: center; */
+  padding-left: 40px;
+  transition: all 250ms ease-out;
+}
+
+.work__projects.anim-out {
+  opacity: 0;
+  transform: scale(0.96) translateY(20px);
+}
+
+.project {
+  position: relative;
+  /* defalut값 static */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 290px;
+  height: 250px;
+  margin: 2px;
+  background-color: var(--color-light-white);
+}
+.notion{
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 290px;
+  height: 250px;
+  margin: 2px;
+  background-color: var(--color-light-white);
+}
+
+.project__img {
+  width: 290px;
+  height: 250px;
+  align-self: center;
+  /* https://developer.mozilla.org/en-US/docs/Web/CSS/align-self
+  설명 참고 items -> 모든 아이템들이 정렬, self -> 그 개체 혼자만 정렬
+  stretch, center, start, end */
+}
+
+.project__description {
+  position: absolute;
+  /* static을 쓰지 않는 부모를 찾아감 */
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  /* opacity -> 투명도 */
+  transform: translateY(10px);
+  transition: all var(--animation-duration) ease-in;
+}
+
+.notion__description {
+  position: absolute;
+  /* static을 쓰지 않는 부모를 찾아감 */
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  /* opacity -> 투명도 */
+  transform: translateY(10px);
+  transition: all var(--animation-duration) ease-in;
+}
+
+.project:hover .project__description {
+  opacity: 0.8;
+  transform: translateY(0px);
+}
+.notion:hover .notion__description {
+  opacity: 0.8;
+  transform: translateY(0px);
+}
+
+.project__description h3 {
+  color: var(--color-white);
+}
+
+.notion__description h3 {
+  color: var(--color-white);
+}
+
+.project__description h3:after {
+  /*  태그나 클래스 뒤에 콜론과 함께 after 선택자를 지정하고 내부에 속성은 content 를 사용 
+content 에 입력한 텍스트는 컨테이너 요소 안 맨 마지막에 추가 */
+  content: '';
+  display: block;
+  position: relative;
+  left: 50%;
+  width: 25px;
+  height: 2px;
+  margin-left: -12px;
+  margin-top: 8px;
+  background-color: var(--color-dark-white);
+}
+
+.notion__description h3:after {
+  /*  태그나 클래스 뒤에 콜론과 함께 after 선택자를 지정하고 내부에 속성은 content 를 사용 
+content 에 입력한 텍스트는 컨테이너 요소 안 맨 마지막에 추가 */
+  content: '';
+  display: block;
+  position: relative;
+  left: 50%;
+  width: 25px;
+  height: 2px;
+  margin-left: -12px;
+  margin-top: 8px;
+  background-color: var(--color-dark-white);
+}
+
+/* Testimonials */
+
+#Notions {
+  background-color: var(--color-light-white);
+}
+
+/* id - # */
+
+.testimonials {
+  margin: 40px;
+  transition: all 250ms ease-out;
+}
+
+/* class - . */
+
+.testimonial {
+  display: flex;
+  margin: 32px 0;
+}
+
+
+.testimonial__avatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+}
+
+.testimonial__avatar:nth-child(odd) {
+  margin-right: 40px;
+}
+
+.testimonial__avatar:nth-child(even) {
+  margin-left: 40px;
+}
+
+.testimonial__speech-bubble {
+  padding: 18px;
+  background-color: var(--color-white);
+  border-radius: var(--size-border-radius);
+}
+
+.testimonial__speech-bubble p {
+  color: var(--color-light-gray);
+}
+
+.testimonial__speech-bubble a {
+  color: var(--color-pink);
+}
+
+.name a {
+  font-weight: var(--weight-semi-bold);
+}
+
+/* Contact */
+#contact {
+  background-color: var(--color-pink);
+}
+
+.contact__title,
+.contact__email,
+.contact__number,
+.contact__rights {
+  color: var(--color-white);
+}
+
+.contact__title {
+  margin: 32px 0;
+}
+
+.contact__links--link1,
+.contact__links--link2 {
+  color: var(--color-white);
+}
+
+.contact__links {
+  font-size: var(--font-large);
+  margin: 24px 0;
+  transition: all var(--animation-duration) ease-in;
+  /* ease : 기본값으로, 전환(transition) 효과가 천천히 시작되어, 그다음에는 빨라지고, 마지막에는 다시 느려집니다.
+ease-in : 전환(transition) 효과가 천천히 시작됩니다.
+ease-out : 전환(transition) 효과가 천천히 끝납니다.
+ease-in-out : 전환(transition) 효과가 천천히 시작되어, 천천히 끝납니다. */
+}
+
+.contact__links i:hover {
+  transform: scale(1.1);
+  color: var(--color-dark-navbar);
+}
+
+/* Arrow up */
+.arrow-up {
+  background-color: var(--color-dark-navbar);
+  position: fixed;
+  bottom: 3rem;
+  right: 3rem;
+  font-size: 3rem;
+  width: 4.5rem;
+  height: 4.5rem;
+  border-radius: 100%;
+  text-align: center;
+  box-shadow: 5px 5px 0px 0px var(--color-pink);
+  transition: opacity 300ms ease-in;
+}
+footer#contact {
+  text-align: center;
+}
+
+/* For below 768px screen width */
+@media screen and (max-width: 768px) {
+  .section {
+    padding: 4rem 2rem;
+  }
+
+  .home__title,
+  .home__title--name,
+  .major__title,
+  .contact__title,
+  .skillset__title {
+    font-size: 2rem;
+  }
+
+  .navbar__toggle-btn {
+    display: block;
+  }
+
+  #navbar {
+    flex-direction: column;
+    /* item 세로로 진열 */
+    align-items: flex-start;
+    background-color: var(--color-dark-navbar);
+    /* https://developer.mozilla.org/en-US/docs/Web/CSS/align-items
+  */
+  }
+
+  .navbar__menu {
+    flex-direction: column;
+    text-align: center;
+    width: 100%;
+    height: 70%;
+    display: none;
+  }
+
+  .navbar__menu.open {
+    display: flex;
+  }
+
+  #home {
+    padding-bottom: 3rem;
+  }
+
+  .home__title,
+  .home__title--name {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .about__majors {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .major {
+    margin-bottom: 3rem;
+    max-width: 25rem;
+  }
+
+  .about__jobs {
+    justify-content: center;
+  }
+
+  .skillset {
+    grid-template-columns: 1fr;
+  }
+
+  .work__categories {
+    flex-direction: column;
+  }
+  .notion__categories{
+    flex-direction: column;
+  }
+
+  .category {
+    width: 100%;
+  }
+
+  .work__projects {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .testimonials {
+    flex-direction: column;
+    
+  }
+
+  .testimonial:nth-child(even) .testimonial__avatar {
+    order: 0;
+  }
+
+  .arrow-up {
+    font-size: 2rem;
+    width: 3rem;
+    height: 3rem;
+    bottom: 1.5rem;
+    right: 1.5rem;
+  }
+}
