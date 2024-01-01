@@ -3,7 +3,7 @@ const sectionIds = [
   "#about",
   "#skills",
   "#work",
-  "#testimonials",
+  "#Notions",
   "#contact",
 ];
 
